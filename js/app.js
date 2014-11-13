@@ -11,7 +11,21 @@ app.config(['$stateProvider', '$locationProvider', function($stateProvider, $loc
 		.state('home', {
 			url: '/',
 			templateUrl: 'views/main.html',
-			controllerAs: 'vm',
 			controller: 'MainCtrl'
 		})
+		.state('product', {
+			url: '/product/:id',
+			templateUrl: 'views/product.html',
+			controller: 'ProductCtrl'
+		})
 }]);
+
+app.run(['$rootScope', 'ShoppingCart', function($rootScope, ShoppingCart){
+	// new shopping cart
+	ShoppingCart.intit();
+
+	// listen for updates
+	$rootScope.$on('ShoppingCart:change', function(){
+    	ShoppingCart.$save();
+    });
+}])
